@@ -12,7 +12,7 @@ own project.
 %newobject *::clone;
 
 /* This file is for creation/handling of arrays */
-%include "std_carray.i";
+%include "std_array.i";
 
 /* This interface file is for better handling of pointers and references */
 %include "typemaps.i"
