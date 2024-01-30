@@ -10,7 +10,7 @@
 #include <OpenSim/Simulation/Model/Model.h>
 #include <OpenSim/Simulation/Model/PhysicalOffsetFrame.h>
 #include <OpenSim/Simulation/InverseKinematicsSolver.h>
-#include <OpenSim/Simulation/OrientationsReference.h>
+#include <OpenSim/Simulation/BufferedOrientationsReference.h>
 
 
 using namespace OpenSim;
@@ -145,7 +145,7 @@ void IMUInverseKinematicsTool::runInverseKinematicsWithOrientationsFromFile(
     TimeSeriesTable_<SimTK::Rotation> orientationsData =
         OpenSenseUtilities::convertQuaternionsToRotations(quatTable);
 
-    OrientationsReference oRefs(orientationsData, &get_orientation_weights());
+    BufferedOrientationsReference oRefs(orientationsData, &get_orientation_weights());
 
     SimTK::Array_<CoordinateReference> coordinateReferences;
 
@@ -163,7 +163,7 @@ void IMUInverseKinematicsTool::runInverseKinematicsWithOrientationsFromFile(
     // create the solver given the input data
     const double accuracy = 1e-4;
     InverseKinematicsSolver ikSolver(model, nullptr,
-            std::make_shared<OrientationsReference>(oRefs),
+            std::make_shared<BufferedOrientationsReference>(oRefs),
         coordinateReferences);
     ikSolver.setAccuracy(accuracy);
 

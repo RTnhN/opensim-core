@@ -28,7 +28,7 @@
 #include "OpenSim/Common/TRCFileAdapter.h"
 #include <OpenSim/Common/Reporter.h>
 #include <OpenSim/Simulation/Model/Model.h>
-#include <OpenSim/Simulation/OrientationsReference.h>
+#include <OpenSim/Simulation/BufferedOrientationsReference.h>
 #include <OpenSim/Simulation/InverseKinematicsSolver.h>
 #include <OpenSim/Tools/InverseKinematicsTool.h>
 #include <OpenSim/Tools/IKTaskSet.h>
@@ -391,7 +391,7 @@ void testInverseKinematicsSolverWithOrientations()
     auto orientationsData = convertMotionFileToRotations(
          model, "std_subject01_walk1_ik.mot");
 
-    std::shared_ptr<OrientationsReference> 
+    std::shared_ptr<BufferedOrientationsReference> 
         oRefs(new OrientationsReference(orientationsData));
     oRefs->set_default_weight(1.0);
 
@@ -460,7 +460,7 @@ void testInverseKinematicsSolverWithEulerAnglesFromFile()
 
     SimTK::State& s0 = model.initSystem();
 
-    std::shared_ptr<OrientationsReference> oRefs(
+    std::shared_ptr<BufferedOrientationsReference> oRefs(
             new OrientationsReference("subject1_walk_euler_angles.sto"));
     SimTK::Array_<CoordinateReference> coordRefs{};
 

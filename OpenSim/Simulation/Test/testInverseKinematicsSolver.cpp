@@ -752,7 +752,7 @@ void testNumberOfOrientationsMismatch()
 
     cout << "After reorder and NaN injections:\n" << orientationsTable << endl;
 
-    std::shared_ptr<OrientationsReference> orientationsRef(
+    std::shared_ptr<BufferedOrientationsReference> orientationsRef(
             new OrientationsReference(orientationsTable));
     int nmr = orientationsRef->getNumRefs();
     auto& osNames = orientationsRef->getNames();

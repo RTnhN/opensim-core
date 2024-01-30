@@ -237,7 +237,13 @@ OpenSim::ModelComponentSet<OpenSim::Controller>;
 %template (SetOientationWeights) OpenSim::Set<OrientationWeight, OpenSim::Object>;
 %template(SharedOrientationsReference) std::shared_ptr<OpenSim::OrientationsReference>;
 %include <OpenSim/Simulation/BufferedOrientationsReference.h>
-%shared_ptr(OpenSim::BufferedOrientationsReference);
+// Since we have both BufferedOrientationsReference and shared_ptr<BufferedOrientationsReference>
+// Across the interface, DO NOT use %shared_ptr macro here as it treats
+// all pointers and references as std::shared_ptr
+//
+%template(SharedBufferedOrientationsReference) std::shared_ptr<OpenSim::BufferedOrientationsReference>;
+
+
 
 %include <OpenSim/Simulation/AssemblySolver.h>
 %include <OpenSim/Simulation/InverseKinematicsSolver.h>

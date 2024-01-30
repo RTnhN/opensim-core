@@ -41,7 +41,7 @@
 #include <OpenSim/Common/Set.h>
 #include <OpenSim/Common/TimeSeriesTable.h>
 #include <OpenSim/Simulation/Model/Point.h>
-#include <OpenSim/Simulation/OrientationsReference.h>
+#include <OpenSim/Simulation/BufferedOrientationsReference.h>
 #include <OpenSim/Tools/InverseKinematicsToolBase.h>
 
 namespace OpenSim {

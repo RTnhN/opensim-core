@@ -49,7 +49,7 @@ InverseKinematicsSolver::InverseKinematicsSolver(const Model& model,
 
 InverseKinematicsSolver::InverseKinematicsSolver(const Model& model,
     std::shared_ptr<MarkersReference> markersReference,
-    std::shared_ptr<OrientationsReference> orientationsReference,
+    std::shared_ptr<BufferedOrientationsReference> orientationsReference,
     SimTK::Array_<CoordinateReference>& coordinateReferences,
         double constraintWeight):
           AssemblySolver(model, coordinateReferences, constraintWeight), 

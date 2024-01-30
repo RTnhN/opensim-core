@@ -86,7 +86,7 @@ public:
 
     InverseKinematicsSolver(const Model& model,
                         std::shared_ptr<MarkersReference> markersReference,
-                        std::shared_ptr<OrientationsReference> orientationsReference,
+                        std::shared_ptr<BufferedOrientationsReference> orientationsReference,
                         SimTK::Array_<CoordinateReference> &coordinateReferences,
                         double constraintWeight = SimTK::Infinity);
     // Backward compatible constructors
@@ -101,12 +101,12 @@ public:
 
     InverseKinematicsSolver(const Model& model,
             const MarkersReference& markersReference,
-            const OrientationsReference& orientationsReference,
+            const BufferedOrientationsReference& orientationsReference,
             SimTK::Array_<CoordinateReference>& coordinateReferences,
             double constraintWeight = SimTK::Infinity)
             : InverseKinematicsSolver(model,
                       std::make_shared<MarkersReference>(markersReference),
-                      std::make_shared<OrientationsReference>(
+                      std::make_shared<BufferedOrientationsReference>(
                               orientationsReference),
                       coordinateReferences, constraintWeight){};
 
@@ -252,7 +252,7 @@ private:
     std::shared_ptr<MarkersReference> _markersReference;
 
     // The orientation reference values and weightings
-    std::shared_ptr<OrientationsReference> _orientationsReference;
+    std::shared_ptr<BufferedOrientationsReference> _orientationsReference;
 
     // Markers collectively form a single assembly condition for the 
     // SimTK::Assembler and the memory is managed by the Assembler
