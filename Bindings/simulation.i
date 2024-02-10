@@ -237,10 +237,11 @@ OpenSim::ModelComponentSet<OpenSim::Controller>;
 %template (SetOientationWeights) OpenSim::Set<OrientationWeight, OpenSim::Object>;
 %template(SharedOrientationsReference) std::shared_ptr<OpenSim::OrientationsReference>;
 %include <OpenSim/Simulation/BufferedOrientationsReference.h>
-%shared_ptr(OpenSim::BufferedOrientationsReference);
+%template(SharedBufferedOrientationsReference) std::shared_ptr<OpenSim::BufferedOrientationsReference>;
 
 %include <OpenSim/Simulation/AssemblySolver.h>
 %include <OpenSim/Simulation/InverseKinematicsSolver.h>
+%include <OpenSim/Simulation/InverseKinematicsSolverRT.h>
 %include <OpenSim/Simulation/OpenSense/IMUPlacer.h>
 %include <OpenSim/Simulation/OpenSense/IMU.h>
 

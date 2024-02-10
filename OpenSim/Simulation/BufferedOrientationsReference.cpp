@@ -70,7 +70,7 @@ double BufferedOrientationsReference::getNextValuesAndTime(
 }
 
 void BufferedOrientationsReference::putValues(
-        double time, const SimTK::RowVector_<SimTK::Rotation_<double>>& dataRow) {
+        double time, const SimTK::RowVectorView_<SimTK::Rotation_<double>>& dataRow) {
     _orientationDataQueue.push_back(time, dataRow);
 }
 } // end of namespace OpenSim

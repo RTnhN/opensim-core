@@ -32,7 +32,7 @@ using namespace SimTK;
 namespace OpenSim {
 
 OrientationsReference::OrientationsReference()
-        : StreamableReference_<SimTK::Rotation>() {
+        : StreamableReference_<SimTK::Rotation_<double>>() {
     constructProperties();
     setAuthors("Ajay Seth");
 }

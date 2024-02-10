@@ -130,6 +130,7 @@
 #include "OpenSense/IMUPlacer.h"
 #include "OpenSense/IMU.h"
 #include "OrientationsReference.h"
+#include "BufferedOrientationsReference.h"
 #include "StatesTrajectoryReporter.h"
 #include "TableProcessor.h"
 #include "MarkersReference.h"
