@@ -111,7 +111,7 @@ public:
         appendToThis.push_back(
                 SimTK::DecorativeBrick(SimTK::Vec3(0.02, 0.01, 0.005))
                         .setBodyId(physFrame.getMobilizedBodyIndex())
-                                        .setColor(SimTK::Orange)
+                                        .setColor(SimTK::Black)
                         .setTransform(relativeXform));
     }
 
