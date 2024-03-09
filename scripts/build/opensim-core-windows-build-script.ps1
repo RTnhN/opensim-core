@@ -3,15 +3,15 @@ param (
   [switch]$s=$false,
   [switch]$h=$false,
   [string]$d="Release",
-  [string]$c="main",
+  [string]$c="working_ik",
   [int]$j=[int]4
 )
 
 # Default values for variables.
 $DEBUG_TYPE="Release"
 $NUM_JOBS=4
-$MOCO="on"
-$CORE_BRANCH="main"
+$MOCO="off"
+$CORE_BRANCH="working_ik"
 
 function Help {
     Write-Output "This script builds the last available version of OpenSim-Gui in your computer."
@@ -84,7 +84,7 @@ refreshenv
 
 # Clone opensim-core
 chdir C:/opensim-workspace/
-git clone https://github.com/opensim-org/opensim-core.git C:/opensim-workspace/opensim-core-source
+git clone https://github.com/RTnhN/opensim-core.git C:/opensim-workspace/opensim-core-source
 chdir C:/opensim-workspace/opensim-core-source
 git.exe checkout $CORE_BRANCH
 
