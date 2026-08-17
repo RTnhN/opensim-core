@@ -414,6 +414,9 @@ class TestWorkflow(unittest.TestCase):
             assert(study.solve().getFinalTime() < 0.8 * finalTime0)
 
     def test_expression_based_parameter_goal(self):
+        if not osim.MocoCasADiSolver.isAvailable():
+            self.skipTest("MocoCasADiSolver is not available.")
+
         study = osim.MocoStudy()
         mp = study.updProblem()
         mp.setModel(createDoubleSlidingMassModel())
