@@ -8,13 +8,15 @@ DEBUG_TYPE="Release"
 NUM_JOBS=4
 MOCO="on"
 CORE_BRANCH="main"
+CORE_REPOSITORY_URL="https://github.com/opensim-org/opensim-core.git"
 GENERATOR="Unix Makefiles"
 
 Help() {
     echo
     echo "This script builds and installs the last available version of OpenSim-Core in your computer."
     echo "Usage: ./scriptName [OPTION]..."
-    echo "Example: ./opensim-core-build.sh -j 4 -d \"Release\""
+    echo "Example: ./opensim-core-linux-build-script.sh -j 4 -d \"Release\""
+    echo "Fork example: ./opensim-core-linux-build-script.sh -r https://github.com/USERNAME/opensim-core.git -c BRANCH"
     echo "    -d         Debug Type. Available Options:"
     echo "                   Release (Default): No debugger symbols. Optimized."
     echo "                   Debug: Debugger symbols. No optimizations (>10x slower). Library names ending with _d."
@@ -23,19 +25,21 @@ Help() {
     echo "    -j         Number of jobs to use when building libraries (>=1)."
     echo "    -s         Simple build without moco (Casadi disabled)."
     echo "    -c         Branch for opensim-core repository."
+    echo "    -r         URL for opensim-core repository. Defaults to the official repository."
     echo "    -n         Use the Ninja generator to build opensim-core. If not set, Unix Makefiles is used."
     echo
     exit
 }
 
 # Get flag values if any.
-while getopts 'j:d:s:c:n' flag
+while getopts 'j:d:sc:r:n' flag
 do
     case "${flag}" in
         j) NUM_JOBS=${OPTARG};;
         d) DEBUG_TYPE=${OPTARG};;
         s) MOCO="off";;
         c) CORE_BRANCH=${OPTARG};;
+        r) CORE_REPOSITORY_URL=${OPTARG};;
         n) GENERATOR="Ninja";;
         *) Help;
     esac
@@ -58,6 +62,7 @@ echo "DEBUG_TYPE="$DEBUG_TYPE
 echo "NUM_JOBS="$NUM_JOBS
 echo "MOCO="$MOCO
 echo "CORE_BRANCH="$CORE_BRANCH
+echo "CORE_REPOSITORY_URL="$CORE_REPOSITORY_URL
 echo "GENERATOR="$GENERATOR
 echo ""
 
@@ -178,9 +183,9 @@ echo
 
 # Get opensim-core.
 echo "LOG: CLONING OPENSIM-CORE..."
-git -C ~/opensim-workspace/opensim-core-source pull || git clone https://github.com/opensim-org/opensim-core.git ~/opensim-workspace/opensim-core-source
+git -C ~/opensim-workspace/opensim-core-source pull || git clone "$CORE_REPOSITORY_URL" ~/opensim-workspace/opensim-core-source
 cd ~/opensim-workspace/opensim-core-source
-git checkout $CORE_BRANCH
+git checkout "$CORE_BRANCH"
 echo
 
 # Build opensim-core dependencies.
