@@ -168,13 +168,23 @@ jobs:
         python3 -m unittest discover --start-directory opensim/tests --verbose
 
   build_linux_wheels:
-    runs-on: ubuntu-latest
+    name: Build Linux wheels (${{ matrix.platform.arch }}, ${{ matrix.python }})
+    runs-on: ${{ matrix.platform.runner }}
     container:
-      image: quay.io/pypa/manylinux_2_28_x86_64
+      image: ${{ matrix.platform.image }}
 
     strategy:
       matrix:
         python: ["cp311", "cp312", "cp313"]
+        platform:
+          - arch: x86_64
+            runner: ubuntu-latest
+            image: quay.io/pypa/manylinux_2_28_x86_64
+            artifact-suffix: linux
+          - arch: aarch64
+            runner: ubuntu-24.04-arm
+            image: quay.io/pypa/manylinux_2_28_aarch64
+            artifact-suffix: linux-aarch64
 
     steps:
     - uses: actions/checkout@v4
@@ -211,16 +221,13 @@ jobs:
         tar \
         gzip \
         patchelf
-  
+
         wget https://ftp.gnu.org/gnu/bison/bison-3.8.2.tar.gz
         tar -xzf bison-3.8.2.tar.gz
         cd bison-3.8.2
         ./configure --prefix=/usr/local
         make -j"$(nproc)"
         make install
-        which bison
-        bison --version
-        
 
     - name: Install SWIG
       run: |
@@ -299,7 +306,7 @@ jobs:
     - name: Upload linux wheel
       uses: actions/upload-artifact@v4
       with:
-         name: wheels-${{ matrix.python }}-linux
+         name: wheels-${{ matrix.python }}-${{ matrix.platform['artifact-suffix'] }}
          path: ${{ steps.configure.outputs.CMAKE_INSTALL_PREFIX }}/sdk/Python/dist/repaired/opensim*.whl
          overwrite: true
 
