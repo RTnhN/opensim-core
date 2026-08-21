@@ -110,6 +110,17 @@ public:
                               orientationsReference),
                       coordinateReferences, constraintWeight){};
 
+    /** Preserve a BufferedOrientationsReference supplied through a language
+    binding. Unlike the const-reference overload above, this overload retains
+    the shared buffered object instead of copying its OrientationsReference
+    base subobject. */
+    InverseKinematicsSolver(const Model& model,
+            const MarkersReference& markersReference,
+            std::shared_ptr<BufferedOrientationsReference>
+                    orientationsReference,
+            SimTK::Array_<CoordinateReference>& coordinateReferences,
+            double constraintWeight = SimTK::Infinity);
+
     /* Assemble a model configuration that meets the InverseKinematics conditions  
         (desired values and constraints) starting from an initial state that  
         does not have to satisfy the constraints. */

@@ -121,6 +121,17 @@ InverseKinematicsSolver::InverseKinematicsSolver(const Model& model,
     }
 }
 
+InverseKinematicsSolver::InverseKinematicsSolver(const Model& model,
+        const MarkersReference& markersReference,
+        std::shared_ptr<BufferedOrientationsReference> orientationsReference,
+        SimTK::Array_<CoordinateReference>& coordinateReferences,
+        double constraintWeight)
+        : InverseKinematicsSolver(model,
+                  std::make_shared<MarkersReference>(markersReference),
+                  std::static_pointer_cast<OrientationsReference>(
+                          orientationsReference),
+                  coordinateReferences, constraintWeight) {}
+
 int InverseKinematicsSolver::getNumMarkersInUse() const
 {
     return _markerAssemblyCondition->getNumMarkers();

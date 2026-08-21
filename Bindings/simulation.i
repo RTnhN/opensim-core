@@ -256,9 +256,45 @@ OpenSim::ModelComponentSet<OpenSim::Controller>;
 //
 %template (SetOientationWeights) OpenSim::Set<OrientationWeight, OpenSim::Object>;
 %template(SharedOrientationsReference) std::shared_ptr<OpenSim::OrientationsReference>;
-%include <OpenSim/Simulation/BufferedOrientationsReference.h>
+// BufferedOrientationsReference must be shared-owned so a solver can retain
+// its queue. Its base classes intentionally remain raw-pointer wrapped; the
+// explicit conversions below keep inherited base-class methods callable.
+%warnfilter(520) OpenSim::BufferedOrientationsReference;
 %shared_ptr(OpenSim::BufferedOrientationsReference);
+%include <OpenSim/Simulation/BufferedOrientationsReference.h>
 
+%types(std::shared_ptr<OpenSim::BufferedOrientationsReference> =
+       OpenSim::OrientationsReference) %{
+    auto* shared = static_cast<
+            std::shared_ptr<OpenSim::BufferedOrientationsReference>*>($from);
+    return static_cast<void*>(
+            static_cast<OpenSim::OrientationsReference*>(shared->get()));
+%}
+
+%types(std::shared_ptr<OpenSim::BufferedOrientationsReference> =
+       OpenSim::StreamableReference_<SimTK::Rotation_<double>>) %{
+    auto* shared = static_cast<
+            std::shared_ptr<OpenSim::BufferedOrientationsReference>*>($from);
+    return static_cast<void*>(static_cast<
+            OpenSim::StreamableReference_<SimTK::Rotation_<double>>*>(
+                    shared->get()));
+%}
+
+%types(std::shared_ptr<OpenSim::BufferedOrientationsReference> =
+       OpenSim::Reference_<SimTK::Rotation_<double>>) %{
+    auto* shared = static_cast<
+            std::shared_ptr<OpenSim::BufferedOrientationsReference>*>($from);
+    return static_cast<void*>(static_cast<
+            OpenSim::Reference_<SimTK::Rotation_<double>>*>(shared->get()));
+%}
+
+%types(std::shared_ptr<OpenSim::BufferedOrientationsReference> =
+       OpenSim::Object) %{
+    auto* shared = static_cast<
+            std::shared_ptr<OpenSim::BufferedOrientationsReference>*>($from);
+    return static_cast<void*>(
+            static_cast<OpenSim::Object*>(shared->get()));
+%}
 %include <OpenSim/Simulation/AssemblySolver.h>
 %include <OpenSim/Simulation/InverseKinematicsSolver.h>
 %include <OpenSim/Simulation/OpenSense/IMUPlacer.h>

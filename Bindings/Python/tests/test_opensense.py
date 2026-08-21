@@ -63,3 +63,29 @@ class TestOpenSense(unittest.TestCase):
         print("Created BufferedOrienationReference object")
         oRefs.putValues(time, rowVec)
         print("Added row vector to BufferedOrientationReference object")
+
+    def test_BufferedOrientationReferenceStreaming(self):
+        model = osim.Model(os.path.join(test_dir,
+                                        'calibrated_model_imu.osim'))
+        quat_table = osim.TimeSeriesTableQuaternion(os.path.join(
+                test_dir, 'orientation_quats.sto'))
+        orientations = osim.OpenSenseUtilities.convertQuaternionsToRotations(
+                quat_table)
+        reference = osim.BufferedOrientationsReference(orientations)
+        coordinate_references = osim.SimTKArrayCoordinateReference()
+
+        state = model.initSystem()
+        solver = osim.InverseKinematicsSolver(
+                model, osim.MarkersReference(), reference,
+                coordinate_references)
+        state.setTime(reference.getTimes()[0])
+        solver.assemble(state)
+
+        queued_time = reference.getTimes()[-1] + 0.02
+        queued_row = osim.RowVectorRotation(
+                orientations.getNearestRow(reference.getTimes()[-1]))
+        reference.putValues(queued_time, queued_row)
+        solver.setAdvanceTimeFromReference(True)
+        solver.track(state)
+
+        self.assertAlmostEqual(state.getTime(), queued_time)
